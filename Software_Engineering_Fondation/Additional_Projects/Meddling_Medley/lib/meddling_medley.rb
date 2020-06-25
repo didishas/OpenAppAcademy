@@ -91,20 +91,36 @@ def counted_characters(string)
 end
 # Examples
 # 
-p counted_characters("that's alright folks") # ["t"]
-p counted_characters("mississippi") # ["i", "s"]
-p counted_characters("hot potato soup please") # ["o", "t", " ", "p"]
-p counted_characters("runtime") # []
+# p counted_characters("that's alright folks") # ["t"]
+# p counted_characters("mississippi") # ["i", "s"]
+# p counted_characters("hot potato soup please") # ["o", "t", " ", "p"]
+# p counted_characters("runtime") # []
 # triplet_true?
 # Write a method triplet_true? that accepts a string as an argument and returns a boolean indicating whether or not the string contains three of the same character consecutively.
 # 
+def triplet_true(string)
+  chars = string.split("")
+  cur = ''
+  count = 0
+
+  (0...chars.length).each do |index|
+    if cur == chars[index]
+      count += 1
+    else
+      cur = chars[index]
+      count = 1
+    end
+    return true if count > 2
+  end
+  return false
+end
 # Examples
 # 
-# p triplet_true('caaabb')        # true
-# p triplet_true('terrrrrible')   # true
-# p triplet_true('runninggg')     # true
-# p triplet_true('bootcamp')      # false
-# p triplet_true('e')             # false
+p triplet_true('caaabb')        # true
+p triplet_true('terrrrrible')   # true
+p triplet_true('runninggg')     # true
+p triplet_true('bootcamp')      # false
+p triplet_true('e')             # false
 # energetic_encoding
 # Write a method energetic_encoding that accepts a string and a hash as arguments. The method should return a new string where characters of the original string are replaced with the corresponding values in the hash. If a character is not a key of the hash, then it should be replaced with a question mark ('?'). Space characters (' ') should remain unchanged.
 # 
