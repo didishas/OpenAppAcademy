@@ -187,13 +187,15 @@ end
 # 
 # Examples
 # 
-is_positive = Proc.new { |n| n > 0 }
-is_odd = Proc.new { |n| n.odd? }
-less_than_ten = Proc.new { |n| n < 10 }
-
-p conjunct_select([4, 8, -2, 11, 7, -3, 13], is_positive) # [4, 8, 11, 7, 13]
-p conjunct_select([4, 8, -2, 11, 7, -3, 13], is_positive, is_odd) # [11, 7, 13]
-p conjunct_select([4, 8, -2, 11, 7, -3, 13], is_positive, is_odd, less_than_ten) # [7]
+# is_positive = Proc.new { |n| n > 0 }
+# is_odd = Proc.new { |n| n.odd? }
+# less_than_ten = Proc.new { |n| n < 10 }
+# 
+# p conjunct_select([4, 8, -2, 11, 7, -3, 13], is_positive) # [4, 8, 11, 7, 13]
+# p conjunct_select([4, 8, -2, 11, 7, -3, 13], is_positive, is_odd) # [11, 7, 13]
+# p conjunct_select([4, 8, -2, 11, 7, -3, 13], is_positive, is_odd, less_than_ten) # [7]
+#
+#
 # convert_pig_latin
 # Write a method convert_pig_latin that accepts a sentence as an argument. The method should translate the sentence according to the following rules:
 # 
@@ -203,13 +205,35 @@ p conjunct_select([4, 8, -2, 11, 7, -3, 13], is_positive, is_odd, less_than_ten)
 # if the word begins with a non-vowel, move all letters that come before the word's first vowel to the end of the word and add 'ay' (example: 'trash'->'ashtray')
 # Note that if words are capitalized in the original sentence, they should remain capitalized in the translated sentence. Vowels are the letters a, e, i, o, u.
 # 
+#
+def convert_pig_latin(sentence)
+  words = sentence.split(" ")
+  vowels = "aeiuo"
+  
+  words.each.with_index do |word, index|
+    if word.length > 2
+
+      if vowels.include?(word[0].downcase)
+        word[-1] += "yay"
+      else
+        while !vowels.include?(word[0])
+          word = word[1..-1] + word[0].downcase
+        end
+        word += "ay"
+        words[index] = word
+      end
+    end
+  end
+  words[0].capitalize!
+  words.join(" ")
+end
 # Examples
 # 
-# p convert_pig_latin('We like to eat bananas') # "We ikelay to eatyay ananasbay"
-# p convert_pig_latin('I cannot find the trash') # "I annotcay indfay ethay ashtray"
-# p convert_pig_latin('What an interesting problem') # "Atwhay an interestingyay oblempray"
-# p convert_pig_latin('Her family flew to France') # "Erhay amilyfay ewflay to Ancefray"
-# p convert_pig_latin('Our family flew to France') # "Ouryay amilyfay ewflay to Ancefray"
+p convert_pig_latin('We like to eat bananas') # "We ikelay to eatyay ananasbay"
+p convert_pig_latin('I cannot find the trash') # "I annotcay indfay ethay ashtray"
+p convert_pig_latin('What an interesting problem') # "Atwhay an interestingyay oblempray"
+p convert_pig_latin('Her family flew to France') # "Erhay amilyfay ewflay to Ancefray"
+p convert_pig_latin('Our family flew to France') # "Ouryay amilyfay ewflay to Ancefray"
 # reverberate
 # Write a method reverberate that accepts a sentence as an argument. The method should translate the sentence according to the following rules:
 # 
