@@ -140,22 +140,31 @@ def energetic_encoding(string, hash)
 end
 # Examples
 # 
-p energetic_encoding('sent sea',
-    'e'=>'i', 's'=>'z', 'n'=>'m', 't'=>'p', 'a'=>'u'
-) # 'zimp ziu'
-
-p energetic_encoding('cat',
-    'a'=>'o', 'c'=>'k'
-) # 'ko?'
-
-p energetic_encoding('hello world',
-    'o'=>'i', 'l'=>'r', 'e'=>'a'
-) # '?arri ?i?r?'
+# p energetic_encoding('sent sea',
+#     'e'=>'i', 's'=>'z', 'n'=>'m', 't'=>'p', 'a'=>'u'
+# ) # 'zimp ziu'
+# 
+# p energetic_encoding('cat',
+#     'a'=>'o', 'c'=>'k'
+# ) # 'ko?'
+# 
+# p energetic_encoding('hello world',
+#     'o'=>'i', 'l'=>'r', 'e'=>'a'
+# ) # '?arri ?i?r?'
 # 
 # p energetic_encoding('bike', {}) # '????'
 # uncompress
 # Write a method uncompress that accepts a string as an argument. The string will be formatted so every letter is followed by a number. The method should return an "uncompressed" version of the string where every letter is repeated multiple times given based on the number that appears directly after the letter.
-# 
+
+def uncompress(string)
+  chars = string.split("")
+  letters = ""
+
+  (0...chars.length).each do |index|
+    letters << chars[index] * chars[index + 1].to_i if chars[index].to_i == 0
+  end
+  p letters
+end
 # Examples
 # 
 # uncompress('a2b4c1') # 'aabbbbc'
