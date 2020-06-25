@@ -50,23 +50,31 @@ end
 #     'cat'=>'dog', 'sad'=>'happy', 'what'=>'make'
 # ) # 'make a happy ad'
 
-p sentence_swap('keep coding okay',
-    'coding'=>'running', 'kay'=>'pen'
-) # 'keep running okay'
+# p sentence_swap('keep coding okay',
+#     'coding'=>'running', 'kay'=>'pen'
+# ) # 'keep running okay'
 
 
 # hash_mapped
 # Write a method hash_mapped that accepts a hash, a proc, and a block. The method should return a new hash where each key is the result of the original key when given to the block. Each value of the new hash should be the result of the original values when passed into the proc.
 # 
+def hash_mapped(hash, prc, &block)
+  result = Hash.new
+
+  hash.each do |key, value|
+    result[block.call(key)] = prc.call(value)
+  end
+  result
+end
 # Examples
-# 
-# double = Proc.new { |n| n * 2 }
-# p hash_mapped({'a'=>4, 'x'=>7, 'c'=>-3}, double) { |k| k.upcase + '!!' }
+ 
+#  double = Proc.new { |n| n * 2 }
+#  p hash_mapped({'a'=>4, 'x'=>7, 'c'=>-3}, double) { |k| k.upcase + '!!' }
 # # {"A!!"=>8, "X!!"=>14, "C!!"=>-6}
 # 
 # first = Proc.new { |a| a[0] }
 # p hash_mapped({-5=>['q', 'r', 's'], 6=>['w', 'x']}, first) { |n| n * n }
-# # {25=>"q", 36=>"w"}
+# {25=>"q", 36=>"w"}
 # counted_characters
 # Write a method counted_characters that accepts a string as an argument. The method should return an array containing the characters of the string that appeared more than twice. The characters in the output array should appear in the same order they occur in the input string.
 # 
