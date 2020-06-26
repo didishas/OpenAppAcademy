@@ -229,11 +229,11 @@ def convert_pig_latin(sentence)
 end
 # Examples
 # 
-p convert_pig_latin('We like to eat bananas') # "We ikelay to eatyay ananasbay"
-p convert_pig_latin('I cannot find the trash') # "I annotcay indfay ethay ashtray"
-p convert_pig_latin('What an interesting problem') # "Atwhay an interestingyay oblempray"
-p convert_pig_latin('Her family flew to France') # "Erhay amilyfay ewflay to Ancefray"
-p convert_pig_latin('Our family flew to France') # "Ouryay amilyfay ewflay to Ancefray"
+# p convert_pig_latin('We like to eat bananas') # "We ikelay to eatyay ananasbay"
+# p convert_pig_latin('I cannot find the trash') # "I annotcay indfay ethay ashtray"
+# p convert_pig_latin('What an interesting problem') # "Atwhay an interestingyay oblempray"
+# p convert_pig_latin('Her family flew to France') # "Erhay amilyfay ewflay to Ancefray"
+# p convert_pig_latin('Our family flew to France') # "Ouryay amilyfay ewflay to Ancefray"
 # reverberate
 # Write a method reverberate that accepts a sentence as an argument. The method should translate the sentence according to the following rules:
 # 
@@ -243,12 +243,36 @@ p convert_pig_latin('Our family flew to France') # "Ouryay amilyfay ewflay to An
 # if the word ends with a non-vowel, repeat all letters that come after the word's last vowel, including the last vowel itself (example: 'trash'->'trashash')
 # Note that if words are capitalized in the original sentence, they should remain capitalized in the translated sentence. Vowels are the letters a, e, i, o, u.
 # 
+
+def reverberate(sentence)
+  words = sentence.split(" ")
+  vowels = "aeiuo"
+
+  words.each.with_index do |word, index|
+    if word.length > 2
+      if vowels.include?(word[-1])
+        words[index] *= 2
+      else
+        repeat_index = 0
+        (word.length - 1).downto(0) do |i|
+        if vowels.include?(word[i])
+          repeat_index = i
+          words[index] += word[repeat_index..-1]
+          break
+        end
+      end
+     end
+    end
+  end
+
+  words.join(" ")
+end
 # Examples
 # 
-# p reverberate('We like to go running fast') # "We likelike to go runninging fastast"
-# p reverberate('He cannot find the trash') # "He cannotot findind thethe trashash"
-# p reverberate('Pasta is my favorite dish') # "Pastapasta is my favoritefavorite dishish"
-# p reverberate('Her family flew to France') # "Herer familyily flewew to Francefrance"
+p reverberate('We like to go running fast') # "We likelike to go runninging fastast"
+p reverberate('He cannot find the trash') # "He cannotot findind thethe trashash"
+p reverberate('Pasta is my favorite dish') # "Pastapasta is my favoritefavorite dishish"
+p reverberate('Her family flew to France') # "Herer familyily flewew to Francefrance"
 # disjunct_select
 # Write a method disjunct_select that accepts an array and one or more procs as arguments. The method should return a new array containing the elements that return true when passed into at least one of the given procs.
 # 
