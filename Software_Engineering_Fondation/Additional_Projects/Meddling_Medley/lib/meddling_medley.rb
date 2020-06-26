@@ -269,33 +269,52 @@ def reverberate(sentence)
 end
 # Examples
 # 
-p reverberate('We like to go running fast') # "We likelike to go runninging fastast"
-p reverberate('He cannot find the trash') # "He cannotot findind thethe trashash"
-p reverberate('Pasta is my favorite dish') # "Pastapasta is my favoritefavorite dishish"
-p reverberate('Her family flew to France') # "Herer familyily flewew to Francefrance"
+# p reverberate('We like to go running fast') # "We likelike to go runninging fastast"
+# p reverberate('He cannot find the trash') # "He cannotot findind thethe trashash"
+# p reverberate('Pasta is my favorite dish') # "Pastapasta is my favoritefavorite dishish"
+# p reverberate('Her family flew to France') # "Herer familyily flewew to Francefrance"
 # disjunct_select
 # Write a method disjunct_select that accepts an array and one or more procs as arguments. The method should return a new array containing the elements that return true when passed into at least one of the given procs.
 # 
+#
+#
+def disjunct_select(array, *prcs)
+  new_array = []
+  array.each do |ele|
+    # prcs.one? do |prc| 
+    #   p ele
+    #   p prc.call(ele)
+    # end
+    prcs.each do |prc|
+      if prc.call(ele)
+        new_array << ele
+        break
+      end
+    end
+  end
+  new_array
+end
 # Examples
 # 
-# longer_four = Proc.new { |s| s.length > 4 }
-# contains_o = Proc.new { |s| s.include?('o') }
-# starts_a = Proc.new { |s| s[0] == 'a' }
-# 
-# p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
-#     longer_four,
-# ) # ["apple", "teeming"]
-# 
-# p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
-#     longer_four,
-#     contains_o
-# ) # ["dog", "apple", "teeming", "boot"]
-# 
-# p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
-#     longer_four,
-#     contains_o,
-#     starts_a
-# ) # ["ace", "dog", "apple", "teeming", "boot"]
+longer_four = Proc.new { |s| s.length > 4 }
+contains_o = Proc.new { |s| s.include?('o') }
+starts_a = Proc.new { |s| s[0] == 'a' }
+
+p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
+    longer_four,
+) # ["apple", "teeming"]
+
+p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
+    longer_four,
+    contains_o
+) # ["dog", "apple", "teeming", "boot"]
+
+p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
+    longer_four,
+    contains_o,
+    starts_a
+) # ["ace", "dog", "apple", "teeming", "boot"]
+
 # alternating_vowel
 # Write a method alternating_vowel that accepts a sentence as an argument. The method should return a new sentence where the words alternate between having their first or last vowel removed. For example:
 # 
@@ -306,12 +325,38 @@ p reverberate('Her family flew to France') # "Herer familyily flewew to Francefr
 # ... and so on
 # Note that words that contain no vowels should remain unchanged. Vowels are the letters a, e, i, o, u.
 # 
+#
+def alternating_vowel(sentence)
+  words = sentence.split(' ')
+  vowels = 'aeiou'
+
+  (0...words.length).each do |index|
+    word = words[index]
+    letters = word.split('')
+    first_count = 0
+    last_count = word.length - 1
+
+    if index % 2 == 1
+      while !(vowels.include?(letters[last_count]))
+        last_count -= 1
+      end
+      letters.slice!(last_count)
+    else
+      while first_count < letters.length && !vowels.include?(letters[first_count])  
+        first_count += 1
+      end
+      letters.slice!(first_count)
+    end
+      words[index] = letters.join('')
+  end
+  words.join(' ')
+end
 # Examples
 # 
-# p alternating_vowel('panthers are great animals') # "pnthers ar grat animls"
-# p alternating_vowel('running panthers are epic') # "rnning panthrs re epc"
-# p alternating_vowel('code properly please') # "cde proprly plase"
-# p alternating_vowel('my forecast predicts rain today') # "my forecst prdicts ran tday"
+p alternating_vowel('panthers are great animals') # "pnthers ar grat animls"
+p alternating_vowel('running panthers are epic') # "rnning panthrs re epc"
+p alternating_vowel('code properly please') # "cde proprly plase"
+p alternating_vowel('my forecast predicts rain today') # "my forecst prdicts ran tday"
 # silly_talk
 # Write a method silly_talk that accepts a sentence as an argument. The method should translate each word of the sentence according to the following rules:
 # 
@@ -319,6 +364,10 @@ p reverberate('Her family flew to France') # "Herer familyily flewew to Francefr
 # if the word ends with a non-vowel, every vowel of the word should be followed by 'b' and that same vowel (example: 'siren'->'sibireben')
 # Note that if words are capitalized in the original sentence, they should remain capitalized in the translated sentence. Vowels are the letters a, e, i, o, u.
 # 
+# def silly_talk(string)
+#   
+# 
+# end
 # Examples
 # 
 # p silly_talk('Kids like cats and dogs') # "Kibids likee cabats aband dobogs"
