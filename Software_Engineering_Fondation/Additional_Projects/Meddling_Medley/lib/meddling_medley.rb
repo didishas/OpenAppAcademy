@@ -385,16 +385,31 @@ def silly_talk(sentence)
 end
 # Examples
 # 
-p silly_talk('Kids like cats and dogs') # "Kibids likee cabats aband dobogs"
-p silly_talk('Stop that scooter') # "Stobop thabat scobooboteber"
-p silly_talk('They can code') # "Thebey caban codee"
-p silly_talk('He flew to Italy') # "Hee flebew too Ibitabaly"
+# p silly_talk('Kids like cats and dogs') # "Kibids likee cabats aband dobogs"
+# p silly_talk('Stop that scooter') # "Stobop thabat scobooboteber"
+# p silly_talk('They can code') # "Thebey caban codee"
+# p silly_talk('He flew to Italy') # "Hee flebew too Ibitabaly"
 # compress
 # Write a method compress that accepts a string as an argument. The method should return a "compressed" version of the string where streaks of consecutive letters are translated to a single appearance of the letter followed by the number of times it appears in the streak. If a letter does not form a streak (meaning that it appears alone), then do not add a number after it.
-# 
+
+def compress(string)
+  chars = string.split("")
+  result = ""
+  count = 1
+
+  (0...chars.length).each do |index|
+    if chars[index] != chars[index + 1]
+      result << chars[index] + (count != 1 ? count.to_s: "")
+      count = 1
+    else
+      count += 1
+    end
+  end
+  result
+end
 # Examples
 # 
-# p compress('aabbbbc')   # "a2b4c"
-# p compress('boot')      # "bo2t"
-# p compress('xxxyxxzzzz')# "x3yx2z4"
+p compress('aabbbbc')   # "a2b4c"
+p compress('boot')      # "bo2t"
+p compress('xxxyxxzzzz')# "x3yx2z4"
 # 
