@@ -300,20 +300,20 @@ longer_four = Proc.new { |s| s.length > 4 }
 contains_o = Proc.new { |s| s.include?('o') }
 starts_a = Proc.new { |s| s[0] == 'a' }
 
-p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
-    longer_four,
-) # ["apple", "teeming"]
-
-p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
-    longer_four,
-    contains_o
-) # ["dog", "apple", "teeming", "boot"]
-
-p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
-    longer_four,
-    contains_o,
-    starts_a
-) # ["ace", "dog", "apple", "teeming", "boot"]
+# p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
+#     longer_four,
+# ) # ["apple", "teeming"]
+# 
+# p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
+#     longer_four,
+#     contains_o
+# ) # ["dog", "apple", "teeming", "boot"]
+# 
+# p disjunct_select(['ace', 'dog', 'apple', 'teeming', 'boot', 'zip'],
+#     longer_four,
+#     contains_o,
+#     starts_a
+# ) # ["ace", "dog", "apple", "teeming", "boot"]
 
 # alternating_vowel
 # Write a method alternating_vowel that accepts a sentence as an argument. The method should return a new sentence where the words alternate between having their first or last vowel removed. For example:
@@ -353,10 +353,12 @@ def alternating_vowel(sentence)
 end
 # Examples
 # 
-p alternating_vowel('panthers are great animals') # "pnthers ar grat animls"
-p alternating_vowel('running panthers are epic') # "rnning panthrs re epc"
-p alternating_vowel('code properly please') # "cde proprly plase"
-p alternating_vowel('my forecast predicts rain today') # "my forecst prdicts ran tday"
+# p alternating_vowel('panthers are great animals') # "pnthers ar grat animls"
+# p alternating_vowel('running panthers are epic') # "rnning panthrs re epc"
+# p alternating_vowel('code properly please') # "cde proprly plase"
+# p alternating_vowel('my forecast predicts rain today') # "my forecst prdicts ran tday"
+
+
 # silly_talk
 # Write a method silly_talk that accepts a sentence as an argument. The method should translate each word of the sentence according to the following rules:
 # 
@@ -364,16 +366,29 @@ p alternating_vowel('my forecast predicts rain today') # "my forecst prdicts ran
 # if the word ends with a non-vowel, every vowel of the word should be followed by 'b' and that same vowel (example: 'siren'->'sibireben')
 # Note that if words are capitalized in the original sentence, they should remain capitalized in the translated sentence. Vowels are the letters a, e, i, o, u.
 # 
-# def silly_talk(string)
-#   
-# 
-# end
+def silly_talk(sentence)
+  words = sentence.split(" ")
+  new_words = []
+  vowels = "aeiou"
+
+  words.each.with_index do |word, index|
+    if vowels.include?(word[-1])
+      words[index] += word[-1]
+    else
+      words[index] = ""
+      word.each_char do |letter|
+        words[index] += (vowels.include?(letter.downcase) ? letter +  "b" + letter.downcase  : letter) 
+      end
+    end
+  end
+  words
+end
 # Examples
 # 
-# p silly_talk('Kids like cats and dogs') # "Kibids likee cabats aband dobogs"
-# p silly_talk('Stop that scooter') # "Stobop thabat scobooboteber"
-# p silly_talk('They can code') # "Thebey caban codee"
-# p silly_talk('He flew to Italy') # "Hee flebew too Ibitabaly"
+p silly_talk('Kids like cats and dogs') # "Kibids likee cabats aband dobogs"
+p silly_talk('Stop that scooter') # "Stobop thabat scobooboteber"
+p silly_talk('They can code') # "Thebey caban codee"
+p silly_talk('He flew to Italy') # "Hee flebew too Ibitabaly"
 # compress
 # Write a method compress that accepts a string as an argument. The method should return a "compressed" version of the string where streaks of consecutive letters are translated to a single appearance of the letter followed by the number of times it appears in the streak. If a letter does not form a streak (meaning that it appears alone), then do not add a number after it.
 # 
