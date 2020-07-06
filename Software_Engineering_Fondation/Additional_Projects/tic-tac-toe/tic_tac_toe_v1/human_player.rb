@@ -8,23 +8,28 @@ class HumanPlayer
   end
 
   def get_position
-    p "Player X, enter two numbers representing a position in the format  `row col`"
-    user_ans = gets.chomp
 
-    if user_ans == '' 
-      raise "Player X, enter coordinates" 
-    else
+    begin
+
+      p "Player #{@mark}, enter two numbers representing a position in the format  `row col`"
+      user_ans = gets.chomp
+
+      raise ArgumentError if user_ans == ''
+
       arr_pos = user_ans.split(" ")
-      if arr_pos.length != 2
-        raise "Player enter only 2 numbers"
-      else
-        if arr_pos.all? { |x| /[0-9]/.match(x) != nil} 
-          return arr_pos.map(&:to_i)
-        else
-          raise "Please enter 2 numbers in format `4 6`"
-        end
+      raise StandardError if arr_pos.length != 2
+      raise RegexpError if arr_pos.one? { |x| /[0-9]/.match?(x) == false} 
+        return arr_pos.map(&:to_i)
       end
-    end
-  end
+    rescue ArgumentError
+      p "Player #{@mark} should not let coordinates empty" 
+      retry
+    rescue RegexpError
+      p "Player #{@mark} should enter only numbers"
+      retry
+    rescue StandardError
+      p "Player #{@mark} should enter 2 coordinates" 
+      retry
+    end 
 
 end
