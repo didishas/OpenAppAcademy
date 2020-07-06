@@ -9,7 +9,7 @@ class Board
 
   def valid?(position)
     row, col = position
-    if row < 0 || col < 0 || @grid[row, col] == nil 
+    if row < 0 || col < 0 || row > @grid.length - 1 || col > @grid.length - 1
       false
     else
       true
