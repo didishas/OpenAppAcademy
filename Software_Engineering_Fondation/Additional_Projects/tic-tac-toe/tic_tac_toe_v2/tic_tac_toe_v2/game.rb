@@ -7,17 +7,29 @@ require 'human_player'
 
 
 class Game
-  def initialize(n, player_1_mark, player_2_mark)
+  def initialize(n, *players_marks)
     @board = Board.new(n)
-    @player_1 = HumanPlayer.new(player_1_mark)
-    @player_2 = HumanPlayer.new(player_2_mark)
-    @player_1.active = true
-    @current_player = @player_1
+    @players = []
+    players_marks.each do |mark|
+      @players << HumanPlayer.new(mark)
+    end
+    @players[0].active = true 
+    @current_player = @players[0]
+    # Previous
+  # def initialize(n, player_1_mark, player_2_mark)
+    # @player_1 = HumanPlayer.new(player_1_mark)
+    # @player_2 = HumanPlayer.new(player_2_mark)
+    # @player_1.active = true
+    # @current_player = @player_1
   end
 
   def switch_turn
-    @player_1.active, @player_2.active = @player_2.active, @player_1.active
-    return @current_player = ( @player_1.active ? @player_1 : @player_2)
+    @players[0].active = false
+    @players.rotate!
+    @players[0].active = true
+    return @current_player = @players[0]
+    # @player_1.active, @player_2.active = @player_2.active, @player_1.active
+    # return @current_player = ( @player_1.active ? @player_1 : @player_2)
   end
 
   def play
@@ -32,7 +44,7 @@ class Game
         @board.print
       if @board.win?(@current_player.mark)
         print "VICTORY"
-        p "Player: #{@current_player} won"
+        p "Player: #{@current_player.mark} won"
         return
       else
         switch_turn
