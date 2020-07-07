@@ -31,6 +31,16 @@ class Board
     end
   end
 
+  def legal_positions
+    result = []
+    @grid.each.with_index do |row, outdex|
+      row.each.with_index do |ele, index|
+         result << [outdex, index] if ele == '_'
+       end
+    end
+    result
+  end
+
   def print
     @grid.each do |row|
       $stdout.print "| "
