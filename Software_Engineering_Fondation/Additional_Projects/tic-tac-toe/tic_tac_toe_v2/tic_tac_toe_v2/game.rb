@@ -7,8 +7,8 @@ require 'human_player'
 
 
 class Game
-  def initialize(player_1_mark, player_2_mark)
-    @board = Board.new
+  def initialize(n, player_1_mark, player_2_mark)
+    @board = Board.new(n)
     @player_1 = HumanPlayer.new(player_1_mark)
     @player_2 = HumanPlayer.new(player_2_mark)
     @player_1.active = true

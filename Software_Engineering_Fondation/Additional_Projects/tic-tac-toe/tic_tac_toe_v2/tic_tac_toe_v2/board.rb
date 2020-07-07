@@ -3,15 +3,16 @@
 
 class Board
 
-  def initialize
-    @grid = Array.new(3) { Array.new(3, '_') }
+  def initialize(n)
+    @grid = Array.new(n) { Array.new(n, '_') }
   end
 
   def valid?(position)
     row, col = position
-    if row < 0 || col < 0 || @grid[row, col] == nil 
+    if row < 0 || col < 0 || row > @grid.length - 1 || col > @grid.length - 1
       false
     else
+      #p @grid[row][col]
       true
     end
   end
