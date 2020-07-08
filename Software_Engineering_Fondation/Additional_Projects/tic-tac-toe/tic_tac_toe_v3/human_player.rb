@@ -7,7 +7,7 @@ class HumanPlayer
     @mark = mark_value
   end
 
-  def get_position
+  def get_position(legal_positions)
 
     begin
 
@@ -19,7 +19,13 @@ class HumanPlayer
       arr_pos = user_ans.split(" ")
       raise StandardError if arr_pos.length != 2
       raise RegexpError if arr_pos.one? { |x| /[0-9]/.match?(x) == false} 
-        return arr_pos.map(&:to_i)
+      
+      result = arr_pos.map(&:to_i)
+      
+      if legal_positions.include?(result)
+        return result
+      else
+        raise StandardError
       end
     rescue ArgumentError
       p "Player #{@mark} should not let coordinates empty" 
@@ -28,8 +34,10 @@ class HumanPlayer
       p "Player #{@mark} should enter only numbers"
       retry
     rescue StandardError
-      p "Player #{@mark} should enter 2 coordinates" 
+      p "#{result} is not a legal position" 
       retry
-    end 
+    end
+  end 
+  
 
 end

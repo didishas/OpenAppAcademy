@@ -11,6 +11,7 @@ class ComputerPlayer
   def get_position(legal_positions)
     prng = Random.new
     num = prng.rand(legal_positions.length - 1)
+    p "Computer #{@mark} chose position #{legal_positions[num]}."
     legal_positions[num]
   end 
 
