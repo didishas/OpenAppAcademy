@@ -101,7 +101,15 @@ class List
     true
   end
 
-  def down(index)
-    @items[index], @items[index + 1] = @items[index + 1], @items[index] if index != self.size - 1
+  def down(index, amount = 1)
+    return false if !self.valid_index?(index)
+
+    while amount > 0
+      break if index == @items.size - 1 
+      @items[index], @items[index + 1] = @items[index + 1], @items[index]
+      index += 1
+      amount -= 1
+    end
+    true
   end
 end
