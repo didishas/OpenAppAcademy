@@ -89,8 +89,16 @@ class List
   # Helpers use to move up item
   # Helpers use to move item down 
 
-  def up(index)
-    @items[index], @items[index - 1] = @items[index - 1], @items[index] if index != 0
+  def up(index, amount = 1)
+    return false if !self.valid_index?(index)
+
+    while amount > 0
+      break if index == 0
+      @items[index], @items[index - 1] = @items[index - 1], @items[index]
+      index -= 1
+      amount -= 1
+    end
+    true
   end
 
   def down(index)
