@@ -17,15 +17,17 @@ class Item
       @deadline = Date.parse(deadline)
       @description = description
     else
-      raise 'raises error due to invalid date'
+      p 'raises error due to invalid date'
+      raise ArgumentError
     end
   end
 
-  def deadline (date)
+  def deadline=(date)
     if Item.valid_date?(date)
       @deadline = Date.parse(date)
     else
-      raise 'deadline is not valid'
+      p 'deadline is not valid'
+      raise ArgumentError
     end
   end
 end
