@@ -38,14 +38,18 @@ class List
     true
   end
 
+  def [](index)
+    @items[index]
+  end
+
   def swap(index_1, index_2)
     return false if !self.valid_index?(index_1) || !self.valid_index?(index_2)
    @items[index_1], @items[index_2] = @items[index_2], @items[index_1]
    true
   end
-
-  def [](index)
-    @items[index]
+  
+  def priority
+    self[0]
   end
   #End Section
 
@@ -62,7 +66,6 @@ class List
 
     @items.each_with_index do |item, index|
       text = "#{index}".ljust(5, ' ') + " | " + "#{item.title}".ljust(21, ' ') + '|' + " #{item.deadline.strftime("%d-%m-%Y")}".ljust(12, ' ')
-      puts
       puts text
     end
     puts ''.ljust(42, '-')
@@ -71,7 +74,7 @@ class List
   def print_full_item(index)
     if valid_index?(index)
       puts ''.ljust(42, '-')
-      item = @items[index]
+      item = self[index]
       text = "#{item.title}".ljust(21) + "#{item.deadline.strftime("%d-%m-%Y")}".rjust(21) + "\n" + "#{item.description}"
       puts text
       puts ''.ljust(42, '-')
@@ -111,5 +114,12 @@ class List
       amount -= 1
     end
     true
+  end
+
+  # End Section
+  #
+
+  def sort_by_date!
+    @items.sort_by! { |item| item.deadline.strftime("%d-%m-%Y")}
   end
 end
