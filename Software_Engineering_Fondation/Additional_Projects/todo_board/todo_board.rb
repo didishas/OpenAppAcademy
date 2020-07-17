@@ -13,19 +13,27 @@ class TodoBoard
   # 
 
   def get_command
-    puts "Enter Command in the format 'CMD <option_1> <option_2> separated by space"
+ #   puts "Enter Command in the format 'CMD <option_1> <option_2> separated by space"
     print "\nEnter a command: "
     cmd, *args = gets.chomp.split(' ')
 
     case cmd
       when 'mktodo'
         @list.add_item(*args)
+      when 'rm'
+        args.map!(&:to_i)
+        @list.remove_item(*args)
+      when 'purge'
+        @list.purge
       when 'up'
         args.map!(&:to_i)
         @list.up(*args)
       when 'down'
         args.map!(&:to_i)
         @list.down(*args)
+      when 'toggle'
+        args.map!(&:to_i)
+        @list.toggle_item(*args)
       when 'swap'
         args.map!(&:to_i)
         @list.swap(*args)

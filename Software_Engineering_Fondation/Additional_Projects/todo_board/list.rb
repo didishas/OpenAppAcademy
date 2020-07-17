@@ -29,6 +29,11 @@ class List
     end
   end
 
+
+  def toggle_item(index)
+    @items[index].toggle
+  end
+
   def size
     @items.size
   end
@@ -51,6 +56,17 @@ class List
   def priority
     self[0]
   end
+
+  def remove_item(index)
+    return false if !self.valid_index?(index)
+    @items.slice!(index)
+    true
+  end
+
+
+  def purge
+    @items.reject! {|item| item.done == true}
+  end
   #End Section
 
   # Section -- Printing
@@ -58,26 +74,28 @@ class List
   # Helpers use to print the all list
   # Helpers use to print individual list
   def print
-    puts ''.ljust(42, '-')
-    puts @label.center(42, ' ')
-    puts ''.ljust(42, '-')
-    puts "Index | Item                 | Deadline   "
-    puts ''.ljust(42, '-')
+    puts ''.ljust(48, '-')
+    puts @label.upcase.center(54, ' ')
+    puts ''.ljust(48, '-')
+    puts "Index | Item                 | Deadline   | Done "
+    puts ''.ljust(48, '-')
 
     @items.each_with_index do |item, index|
-      text = "#{index}".ljust(5, ' ') + " | " + "#{item.title}".ljust(21, ' ') + '|' + " #{item.deadline.strftime("%d-%m-%Y")}".ljust(12, ' ')
+      value = ( item.done ? "✓": " ")
+      text = "#{index}".ljust(5, ' ') + " | " + "#{item.title}".ljust(21, ' ') + '|' + " #{item.deadline.strftime("%d-%m-%Y")}".ljust(12, ' ') + "|  [#{value}]"
       puts text
     end
-    puts ''.ljust(42, '-')
+    puts ''.ljust(48, '-')
   end
 
   def print_full_item(index)
     if valid_index?(index)
-      puts ''.ljust(42, '-')
+      value = ( self[index].done ? "✓" : " ")
+      puts ''.ljust(48, '-')
       item = self[index]
-      text = "#{item.title}".ljust(21) + "#{item.deadline.strftime("%d-%m-%Y")}".rjust(21) + "\n" + "#{item.description}"
+      text = "#{item.title}".ljust(21) + "#{item.deadline.strftime("%d-%m-%Y")}".rjust(12) + " [#{value}] ".rjust(14, ' ')  + "\n" + "#{item.description}"
       puts text
-      puts ''.ljust(42, '-')
+      puts ''.ljust(48, '-')
     end
   end
 

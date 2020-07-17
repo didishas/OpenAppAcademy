@@ -7,15 +7,15 @@ class Item
     Date.valid_date?(y.to_i, m.to_i, d.to_i)
   end
 
-  attr_reader :deadline
+  attr_reader :deadline, :done
   attr_accessor :title, :description
 
   def initialize(title, deadline, description)
-
     if Item.valid_date?(deadline)
       @title = title
       @deadline = Date.parse(deadline)
       @description = description
+      @done = false
     else
       p 'raises error due to invalid date'
       raise ArgumentError
@@ -30,5 +30,10 @@ class Item
       raise ArgumentError
     end
   end
+
+  def toggle
+    @done = !done
+  end
+
 end
 
