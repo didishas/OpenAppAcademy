@@ -21,16 +21,38 @@ class Ghost
         players.each {|player| @players << Player.new(player)}
         @fragment = '' 
         @dictionary = Ghost.populate_dictionary
+        
+        @losses = Hash.new 
+        @players.each do |player, value|
+          @losses[player.name] = 0
+        end
+    end
+
+    def reinit(fragment)
+      @players.each do |player, value|
+        @losses[player.name] = 0
+      end
+      @fragment = ''
     end
 
     def play_round
-      while !@dictionary.has_key?(@fragment.to_sym)
-        take_turn(current_player)
-        next_player!
+      last_fragment = ''
+      reinit(@fragment)
+
+      while record(@losses[previous_player.name]) != 'GHOST'
+        while !@dictionary.has_key?(@fragment.to_sym)
+          take_turn(current_player)
+          next_player!
+        end
+        losses(previous_player.name)
+
+        p "Player #{previous_player.name} lost he found #{@fragment}"
+        p "Player #{previous_player.name} is close to #{record(@losses[previous_player.name])}"
+
+        last_fragment = @fragment
+        @fragment = ""
       end
-      p "Player #{previous_player.name} lost he found #{@fragment}"
-      @fragment = ""
-      nil
+        return p "Player #{previous_player.name}, You have lost, you've found the last #{record(@losses[previous_player.name])} : #{last_fragment}"
     end
 
     def current_player
@@ -53,7 +75,7 @@ class Ghost
 
     def is_valid_fragment?(string)
       @dictionary.each do |key, value|
-        return true if key.to_s.include?(string)
+        return true if key.to_s[0...string.length] == string
       end
       false
     end
@@ -66,13 +88,23 @@ class Ghost
     end
 
     def take_turn(player)
-      guess_letter = ask_letter_to_add(player)
-      player.guess = guess_letter
+      player.guess = ask_letter_to_add(player)
       
       while !valid_play?(player.guess)
         player.alert_invalid_guess
-        guess_letter = ask_letter_to_add(player)
+        player.guess = ask_letter_to_add(player)
+        
       end
-      @fragment += guess_letter
+      @fragment += player.guess
+    end
+
+
+    def losses(player)
+      @losses[player] += 1
+    end
+
+    def record(losses)
+      ghost = "GHOST"
+      ghost.slice(0...losses)
     end
 end

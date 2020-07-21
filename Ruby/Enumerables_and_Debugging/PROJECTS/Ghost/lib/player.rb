@@ -9,7 +9,7 @@ class Player
   end
 
   def alert_invalid_guess
-    p "Invalid Guess letter : #{@guess}"  
+    p "Invalid Guess letter : #{@guess}"
   end
 end
 
