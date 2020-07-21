@@ -36,10 +36,6 @@ class Ghost
     end
 
     def play_round
-      last_fragment = ''
-      reinit(@fragment)
-
-      while record(@losses[previous_player.name]) != 'GHOST'
         while !@dictionary.has_key?(@fragment.to_sym)
           take_turn(current_player)
           next_player!
@@ -51,8 +47,7 @@ class Ghost
 
         last_fragment = @fragment
         @fragment = ""
-      end
-        return p "Player #{previous_player.name}, You have lost, you've found the last #{record(@losses[previous_player.name])} : #{last_fragment}"
+        last_fragment
     end
 
     def current_player
@@ -106,5 +101,15 @@ class Ghost
     def record(losses)
       ghost = "GHOST"
       ghost.slice(0...losses)
+    end
+
+    def run
+      last_fragment = ''
+      reinit(@fragment)
+
+      while record(@losses[previous_player.name]) != 'GHOST'
+        last_fragment = play_round
+      end
+        return p "Player #{previous_player.name}, You have lost, you've found the last #{record(@losses[previous_player.name])} : #{last_fragment}"
     end
 end
