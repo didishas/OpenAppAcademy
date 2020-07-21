@@ -1,7 +1,3 @@
-require "pry"
-require "pry-doc"
-
-
 
 class Array
 
@@ -10,7 +6,8 @@ class Array
     def my_each(&prc)
 
         for i in (0...self.length) do
-            prc.call(self[i])
+          # prc.call(self[i])
+            yield(self[i])
         end
         self
     end
@@ -19,7 +16,8 @@ class Array
         arr = []
         
         self.my_each do |ele|
-            arr << ele if prc.call(ele)
+            # arr << ele if prc.call(ele)
+            arr << ele if yield(ele)
         end
         arr
     end
@@ -110,5 +108,3 @@ class Array
     end
 end
 
-p [ "a", "b", "c" ].my_reverse   #=> ["c", "b", "a"]
-p [ 1 ].my_reverse               #=> [1]
