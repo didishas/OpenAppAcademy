@@ -55,7 +55,7 @@ class Ghost
     end
 
     def previous_player
-        @players[1]
+        @players[-1]
     end
 
     def next_player!
@@ -103,13 +103,21 @@ class Ghost
       ghost.slice(0...losses)
     end
 
-    def run
-      last_fragment = ''
-      reinit(@fragment)
+    def eliminate_player
+      self.players.pop
+    end
 
-      while record(@losses[previous_player.name]) != 'GHOST'
-        last_fragment = play_round
+    def run
+      while @players.length > 1
+        last_fragment = ''
+        reinit(@fragment)
+
+        while record(@losses[previous_player.name]) != 'GHOST'
+          last_fragment = play_round
+        end
+        p "Player #{previous_player.name} is eliminated, is found his last #{record(@losses[previous_player.name])} word : #{last_fragment}"
+        eliminate_player
       end
-        return p "Player #{previous_player.name}, You have lost, you've found the last #{record(@losses[previous_player.name])} : #{last_fragment}"
+      p "Player #{current_player.name} win"
     end
 end
